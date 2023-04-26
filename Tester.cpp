@@ -10,32 +10,41 @@
     Durationnn UNIQ_ID(__LINE__) {message};
 
 class Durationnn {
-    std::string message;
-    std::chrono::steady_clock::time_point start;
+  std::string message;
+  std::chrono::steady_clock::time_point start;
 public:
-    explicit Durationnn (std::string&& msg = " ") 
-    : message (std::move(msg))
-    , start (std::chrono::steady_clock::now()) {
-    }
-    ~Durationnn () {
-    auto finish = std::chrono::steady_clock::now();
-    auto duration = finish - start;
-    std::cout << message << ": " 
-              << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() 
-              << " ms" << std::endl;
-    } 
+  explicit Durationnn (std::string&& msg = " ") 
+  : message (std::move(msg))
+  , start (std::chrono::steady_clock::now()) {
+  }
+  ~Durationnn () {
+  auto finish = std::chrono::steady_clock::now();
+  auto duration = finish - start;
+  std::cerr << message << ": " 
+            << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() 
+            << " ms" << std::endl;
+  } 
 };
 
-template <typename T, typename U> 
-void Asserttt(const T& t, const U& u) {
-    if (t != u) {
-        std::cout << "Assertion feiled: " << t << " != " << u << std::endl;
-    }
-}
+template <typename T> 
+class Test {
+public:
+  T foo;
+  Test(T foo): foo(foo) { 
+  }
+  template <typename P>
+  void test(P&& p) {
+    foo(p);
+  }
+};
 
+  //std::cerr << "Assertion feiled: " << t << " != " << u << std::endl;
+  
+  int g(int) {
+    std::cout << "1"<< std::endl;
+    return 1;
+  };
 int main() {
-    DURATION("a");
-    int a = 5;
-    int b = 6;
-    Asserttt(a,b);
+  Test r(g);
+  r.test(1);
 }
