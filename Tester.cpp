@@ -2,7 +2,7 @@
 #include <chrono>
 #include <utility>
 #include <string>
-
+#include <tuple>
 
 #define UNIQ_ID_IMPL(lineno) _a_local_var_##lineno
 #define UNIQ_ID(lineno) UNIQ_ID_IMPL(lineno)
@@ -32,9 +32,9 @@ public:
   T foo;
   Test(T foo): foo(foo) { 
   }
-  template <typename P>
-  void test(P&& p) {
-    foo(p);
+  template <typename ... Args>
+  auto test(Args&& ... args) {
+    return foo(args ...);
   }
 };
 
@@ -44,7 +44,16 @@ public:
     std::cout << "1"<< std::endl;
     return 1;
   };
+  
+  auto f (bool x, double y) {
+    std::cout << "2"<< std::endl;
+    return 1.2;
+  }
+
 int main() {
-  Test r(g);
-  r.test(1);
+  Test G(g);
+  G.test(1);
+  Test F(f);
+  auto t = F.test(1, 6.1);
+  std::cout << t; 
 }
