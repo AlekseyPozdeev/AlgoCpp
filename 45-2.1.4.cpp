@@ -45,4 +45,4 @@ int main() {
     std::cout << C[i] << " ";
   }
   std::cout << '\n';
-} 
+}
