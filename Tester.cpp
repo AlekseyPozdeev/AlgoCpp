@@ -56,4 +56,4 @@ int main() {
   Test F(f);
   auto t = F.test(1, 6.1);
   std::cout << t; 
-}
+} 
