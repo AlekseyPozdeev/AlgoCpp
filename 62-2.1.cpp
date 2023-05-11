@@ -24,7 +24,7 @@ void Merge(int* A, int p, int q, int r) {
   int L[n1];
   int R[n2];
 
-  for (int i = 0; i < n1-1; ++i) {
+  for (auto i = 0; i < n1-1; ++i) {
     L[i] = A[p+i];
   } 
   L[n1-1] = n*n;
@@ -44,7 +44,7 @@ void Merge(int* A, int p, int q, int r) {
   std::cout << '\n';*/
   int i = 0;
   int j = 0; 
-  for (int k = p; k <= r; ++k) {
+  for (auto k = p; k <= r; ++k) {
     if (L[i] <= R[j]) {
       A[k] = L[i];
       ++i;
