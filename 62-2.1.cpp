@@ -6,12 +6,12 @@
 const int n = 11;
 int A[n];
 
-void Merge(int* AA, int p, int q, int r) {
+void Merge(int* A, int p, int q, int r) {
       
   
    /* std::cout << "Новый мерж" << '\n';
     for (auto i = 0; i < n; ++i) {
-      std::cout << AA[i] << " ";
+      std::cout << A[i] << " ";
     }
     std::cout << '\n';
     std::cout << "p=" << p << " ";
@@ -25,7 +25,7 @@ void Merge(int* AA, int p, int q, int r) {
   int R[n2];
 
   for (int i = 0; i < n1-1; ++i) {
-    L[i] = AA[p+i];
+    L[i] = A[p+i];
   } 
   L[n1-1] = n*n;
   /*std::cout << "L" << '\n';
@@ -34,7 +34,7 @@ void Merge(int* AA, int p, int q, int r) {
     }
   std::cout << '\n';*/
   for (auto i = 0; i < n2-1; ++i) {
-    R[i] = AA[q + 1 + i];
+    R[i] = A[q + 1 + i];
   }
   R[n2-1] = n*n;
   /*std::cout << "R" << '\n';
@@ -46,11 +46,11 @@ void Merge(int* AA, int p, int q, int r) {
   int j = 0; 
   for (int k = p; k <= r; ++k) {
     if (L[i] <= R[j]) {
-      AA[k] = L[i];
+      A[k] = L[i];
       ++i;
     }
     else {
-      AA[k] = R[j];
+      A[k] = R[j];
       ++j;
     }
   }
@@ -60,12 +60,12 @@ void Merge(int* AA, int p, int q, int r) {
   std::cout << '\n';*/
 }
 
-void Merge_Sort(int* AA, int p, int r) {
+void Merge_Sort(int* A, int p, int r) {
   if (p < r) {
     int q = (p + r) / 2;
-    Merge_Sort(AA, p, q);
-    Merge_Sort(AA, q + 1, r);  
-    Merge(AA, p, q, r);
+    Merge_Sort(A, p, q);
+    Merge_Sort(A, q + 1, r);  
+    Merge(A, p, q, r);
   }
 }
 
