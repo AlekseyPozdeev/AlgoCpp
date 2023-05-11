@@ -3,31 +3,45 @@
 #include <stdlib.h>
 #include <time.h>
 
-const int n = 7;
+const int n = 11;
 int A[n];
-//TODO
+
 void Merge(int* AA, int p, int q, int r) {
       
   
-    std::cout << p << '\n';
-    std::cout << q << '\n';
-    std::cout << r << '\n';
+   /* std::cout << "Новый мерж" << '\n';
     for (auto i = 0; i < n; ++i) {
-      std::cout << A[i] << " ";
+      std::cout << AA[i] << " ";
     }
     std::cout << '\n';
-  int n1 = q-p+1;
-  int n2 = r-q+1;
+    std::cout << "p=" << p << " ";
+    std::cout << "q=" << q << " ";
+    std::cout << "r=" << r << '\n';*/
+  int n1 = q - p + 2;
+  int n2 = r - q + 1;
+ /* std::cout << "n1=" << n1 << " ";
+  std::cout << "n2=" << n2 << '\n';*/
   int L[n1];
   int R[n2];
-  for (auto i = 0; i < n1; ++i) {
+
+  for (int i = 0; i < n1-1; ++i) {
     L[i] = AA[p+i];
   } 
-  L[n1] = n*n;
-  for (auto i = 0; i < n2; ++i) {
-    R[i] = AA[q+i];
+  L[n1-1] = n*n;
+  /*std::cout << "L" << '\n';
+  for (auto i = 0; i < n1; ++i) {
+      std::cout << L[i] << " ";
+    }
+  std::cout << '\n';*/
+  for (auto i = 0; i < n2-1; ++i) {
+    R[i] = AA[q + 1 + i];
   }
-  R[n2] = n*n;
+  R[n2-1] = n*n;
+  /*std::cout << "R" << '\n';
+  for (auto i = 0; i < n2; ++i) {
+      std::cout << R[i] << " ";
+    }
+  std::cout << '\n';*/
   int i = 0;
   int j = 0; 
   for (int k = p; k <= r; ++k) {
@@ -40,10 +54,10 @@ void Merge(int* AA, int p, int q, int r) {
       ++j;
     }
   }
-    for (auto i = 0; i < n; ++i) {
-      std::cout << A[i] << " ";
-    }
-    std::cout << '\n';
+  /*for (auto i = 0; i < n; ++i) {
+    std::cout << A[i] << " ";
+  }
+  std::cout << '\n';*/
 }
 
 void Merge_Sort(int* AA, int p, int r) {
