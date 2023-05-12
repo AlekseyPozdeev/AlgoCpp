@@ -6,7 +6,7 @@
 const int n = 11;
 std::array<int,n> A;
 
-template <typename T>
+template <typename T >
 void Merge(T& A, auto p, auto q, auto r) {
   auto n1 = q - p + 2;
   auto n2 = r - q + 1;
@@ -44,6 +44,13 @@ void Merge_Sort(T& A, auto p, auto r) {
   }
 }
 
+template <typename T>
+void Sort (T& A, auto begin, auto end) {
+  auto p =  std::distance(A.begin(), begin);
+  auto r =  std::distance(A.begin(), end);
+  Merge_Sort(A, p, r-1);
+}
+
 int main() {
   std::srand(time(NULL));
   for (auto i = 0; i < n; ++i) {
@@ -52,7 +59,7 @@ int main() {
   }
   std::cout << '\n';
   
-  Merge_Sort(A, 0, n-1);
+  Sort(A, A.begin(), A.end());
 
   for (auto i = 0; i < n; ++i){
     std::cout << A[i] << " ";
