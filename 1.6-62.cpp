@@ -33,64 +33,83 @@ int Recinmult (int l_begin, int l_end, int r_begin, int r_end) {
   auto d_range = std::make_pair(c_range.second, r_end);
 
   auto j = n - 1;
-  auto temp_ac = Recinmult(a_range.first, a_range.second, c_range.first, c_range.second);  //ac
-  for (auto i = 2*n-1; i >= temp_ac; --i) {
-    ac[j] = C[i];
-    --j;
+  if (c_range.second - c_range.first > 0) {
+    auto temp_ac = Recinmult(a_range.first, a_range.second, c_range.first, c_range.second);  //ac
+    for (auto i = 2*n-1; i >= temp_ac; --i) {
+      ac[j] = C[i];
+      --j;
+    }
+    std::cout << '\n';
+    std::cout << "ac ";
+    for (auto j = 0; j < n; ++j) {
+      std::cout << ac[j] << " ";
+    }
+    std::cout << '\n';
+
+    auto temp_ad = Recinmult(a_range.first, a_range.second, d_range.first, d_range.second);  //ad
+    j = n - 1;
+    for (auto i = 2*n-1; i >= temp_ad; --i) {
+      ad[j] = C[i];
+      --j;
+    }
+    std::cout << "ad ";
+    for (auto j = 0; j < n; ++j){
+      std::cout << ad[j] << " ";
+    }
+    std::cout << '\n';
   }
-  auto temp_ad = Recinmult(a_range.first, a_range.second, d_range.first, d_range.second);  //ad
-  j = n - 1;
-  for (auto i = 2*n-1; i >= temp_ad; --i) {
-    ad[j] = C[i];
-    --j;
+  else {
+    std::cout << "  --" <<'\n';
   }
-  auto temp_bc = Recinmult(b_range.first, b_range.second, c_range.first, c_range.second);  //bc
-  j = n - 1;
-  for (auto i = 2*n-1; i >= temp_bc; --i) {
-    bc[j] = C[i];
-    --j;
+
+  if ((a_range.second - a_range.first) > 0) {
+    auto temp_bc = Recinmult(b_range.first, b_range.second, c_range.first, c_range.second);  //bc
+    j = n - 1;
+    for (auto i = 2*n-1; i >= temp_bc; --i) {
+      bc[j] = C[i];
+      --j;
+    }
+    std::cout << "bc ";
+    for (auto j = 0; j < n; ++j){
+      std::cout << bc[j] << " ";
+    }
+    std::cout << '\n';
+    
+    auto temp_bd = Recinmult(b_range.first, b_range.second, d_range.first, d_range.second);  //bd
+    j = n - 1;
+    for (auto i = 2*n-1; i >= temp_bd; --i) {
+      bd[j] = C[i];
+      --j;
+    }
+    std::cout << "bd ";
+    for (auto j = 0; j < n; ++j){
+      std::cout << bd[j] << " ";
+    }
+    std::cout << '\n';
   }
-  auto temp_bd = Recinmult(b_range.first, b_range.second, d_range.first, d_range.second);  //bd
-  j = n - 1;
-  for (auto i = 2*n-1; i >= temp_bd; --i) {
-    bd[j] = C[i];
-    --j;
+  else {
+    std::cout << "--" <<'\n';
   }
-  
-  std::cout << "bd ";
-  for (auto j = 0; j < n; ++j){
-    std::cout << bd[j] << " ";
-  }
-  std::cout << '\n';
-  std::cout << "ad ";
-  for (auto j = 0; j < n; ++j){
-    std::cout << ad[j] << " ";
-  }
-  std::cout << '\n';
-  std::cout << "bc ";
-  for (auto j = 0; j < n; ++j){
-    std::cout << bc[j] << " ";
-  }
-  std::cout << '\n';
-  std::cout << "ac ";
-  for (auto j = 0; j < n; ++j) {
-    std::cout << ac[j] << " ";
-  }
-  std::cout << '\n';
-  std::cout << '\n';
-  
+
   for (auto i = 0; i < 2*n; ++i) { //clear
     C[i] = 0;
   }
-   
+  
   //10^n * ac + 10^n/2 * (ad + bc) + bd
-  auto range = std::make_pair(2*n - 1, 2*n - 1 - 2*(a_range.second - a_range.first));
+  auto len = r_end - r_begin; 
+  if ((l_end - l_begin) >= (r_end - r_begin)) {
+    len = l_end - l_begin;
+  }
+  auto range = std::make_pair(2*n - 1, 2*n - 1 - len);
   j = n - 1; 
   for (auto i = range.first; i >= range.second; --i) {
-    C[i] = bd[j];
+    if (j >= 0) {
+      C[i] = bd[j];
+    }
     --j;
   }
-  range.first = 2*n-1 - a_range.second - a_range.first;
+
+  range.first = 2*n-1 - len/2;
   range.second = range.first - d_range.second - d_range.first;
   j = n - 1;
   for (auto i = range.first; i >= range.second; --i) {
@@ -104,8 +123,9 @@ int Recinmult (int l_begin, int l_end, int r_begin, int r_end) {
     }
     --j;
   }
-  range.first = 2*n-1 - 2*(a_range.second - a_range.first);
-  range.second = range.first - 2*(a_range.second - a_range.first) + 1;
+
+  range.first = 2*n-1 - len;
+  range.second = range.first - 2*len + 1;
   j = n - 1;
   for (auto i = range.first; i >= range.second; --i) {
     auto temp = C[i] + ac[j]; 
@@ -115,7 +135,12 @@ int Recinmult (int l_begin, int l_end, int r_begin, int r_end) {
     }
     --j;
   }
-    return range.first - temp_ac;
+  std::cout << "result ";
+  for (int i = 0; i < 2*n; ++i) {
+    std::cout << C[i] << " ";  
+  }
+  std::cout << '\n';
+    return range.first - range.second;
 }
 
 int main() {
@@ -132,7 +157,7 @@ int main() {
     std::cout << B[i];  
   }
   std::cout << '\n';
-  auto x = Recinmult(0, n, 0, n); 
+  Recinmult(0, n, 0, n); 
   std::cout << "result number is ";
   for (int i = 0; i < 2*n; ++i) {
     std::cout << C[i] << " ";  
