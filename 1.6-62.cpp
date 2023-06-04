@@ -7,7 +7,7 @@
 #include <time.h>
 #include <algorithm>
 
-const int n = 3;
+const int n = 4;
 std::array<int, n> A;
 std::array<int, n> B;
 std::array<int, 2*n> C; 
@@ -68,14 +68,14 @@ int Recinmult (int l_begin, int l_end, int r_begin, int r_end) {
   }
 
   if (a_range.second - a_range.first > 0) {
-    auto temp_bc = Recinmult(b_range.first, b_range.second, c_range.first, c_range.second);  //bc
+    temp_bc = Recinmult(b_range.first, b_range.second, c_range.first, c_range.second);  //bc
     j = n;
     for (auto i = 2*n-1; i >= temp_bc; --i) {
       bc[j] = C[i];
       --j;
     }
     std::cout << "bc ";
-    for (auto j = 0; j <= n; ++j){
+    for (auto j = 0; j <= n; ++j) {
       std::cout << bc[j] << " ";
     }
     std::cout << '\n';
@@ -121,7 +121,7 @@ int Recinmult (int l_begin, int l_end, int r_begin, int r_end) {
       --j;
     }
     range.first = range.first - len/2 - offset;
-    range.second = range.first - 2*(len + offset);
+    range.second = range.first - len;
 
   }
   std::cout << "result ";
@@ -137,7 +137,7 @@ int Recinmult (int l_begin, int l_end, int r_begin, int r_end) {
       C[i] = temp % 10;
     }
     if (temp > 9) {
-      C[i - 1] = (temp - C[i]) / 10;
+      C[i - 1] = C[i - 1] + (temp - C[i]) / 10;
     }
     --j;
   }
@@ -148,9 +148,9 @@ int Recinmult (int l_begin, int l_end, int r_begin, int r_end) {
   std::cout << '\n';
   if (temp_ac != -1) {
     range.first = range.first - len/2 - offset;
-    range.second = range.first - 2*(len + offset) + 1;
+    range.second = range.first - len;
     j = n;
-    for (auto i = range.first; i >= range.second; --i) {
+    for (auto i = range.first; ((i >= range.second) or (i = 0)); --i) {
       auto temp = C[i] + ac[j]; 
       C[i] = temp % 10;
       if (temp > 9) {
@@ -164,7 +164,12 @@ int Recinmult (int l_begin, int l_end, int r_begin, int r_end) {
     std::cout << C[i] << " ";  
   }
   std::cout << '\n';
-  return range.second;
+  if (range.second > 0) {
+    return range.second - 1;
+  }
+  else {
+    return 0;
+  }
 }
 
 int main() {
