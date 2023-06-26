@@ -7,7 +7,7 @@ const int n = 11;
 std::array<int,n> A;
 
 void ChoosePivot(auto &A, auto begin, auto end) {
-  auto pivot = begin + rand() % (end - begin) + 1;
+  auto pivot = begin + rand() % (end - begin + 1);
   auto temp = A[pivot];
   A[pivot] = A[begin];
   A[begin] = temp;
@@ -21,6 +21,7 @@ auto Partition (auto &A, auto begin, auto end) {
       A[pivot] = A[i];
       A[i] = A[pivot+1];
       A[pivot+1] = temp;
+      pivot += 1;
     }
   }
 return pivot;
